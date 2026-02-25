@@ -1,0 +1,12 @@
+/* Reset only — all styling injected via <style> tag in App.jsx */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #03050A;
+}
