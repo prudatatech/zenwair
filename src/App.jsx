@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import "./styles/zenwair.css";
 import LOGO from "./LOGO.png";
-import product1 from "./product1.png";
-import product2 from "./product2.png";
-import product3 from "./product3.png";
-import product4 from "./product4.png";
-import product5 from "./product5.png";
-import product6 from "./product6.png";
+import product1 from "./product1.webp";
+import product2 from "./product2.webp";
+import product3 from "./product3.webp";
+import product4 from "./product4.webp";
+import product5 from "./product5.webp";
+import product6 from "./product6.webp";
 import heroVideo from "./video.mp4";
 import { joinWaitlist } from "./waitlist";
 
@@ -255,7 +255,7 @@ function ImageModal({ item, onClose }) {
       <div className="modal-blur-bg" />
       <div className="modal-card" onClick={e => e.stopPropagation()}>
         <div className="modal-img-wrap">
-          <img src={item.img} alt={item.name} />
+          <img src={item.img} alt={item.name} loading="lazy" decoding="async" />
           <button className="modal-close-btn" onClick={onClose}><IconClose /></button>
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(0,0,0,0.5) 0%,transparent 55%)" }} />
         </div>
@@ -276,7 +276,7 @@ function CatalogueCard({ img, name, sub, tag, desc, delay }) {
   return (
     <>
       <div className="cat-card reveal" style={{ animationDelay: `${delay}s` }} onClick={() => setOpen(true)}>
-        <img src={img} alt={name} />
+        <img src={img} alt={name} loading="lazy" decoding="async" />
         <div className="cat-overlay" />
         <div className="cat-zoom-icon"><IconZoom /></div>
         <div className="cat-info">
@@ -329,7 +329,7 @@ function ModelShowcase() {
         {MODELS.map((mo, i) => (
           <div key={i} className="showcase-slide" style={{ opacity: i === idx ? 1 : 0, zIndex: i === idx ? 2 : 1, pointerEvents: i === idx ? "auto" : "none", transition: "opacity 0.65s ease" }}>
             <div className="showcase-img-wrap">
-              <img src={mo.img} alt={mo.name} className="showcase-img" style={{ transform: i === idx ? `scale(${1 + prog * 0.05})` : "scale(1.04)" }} />
+              <img src={mo.img} alt={mo.name} loading="lazy" decoding="async" className="showcase-img" style={{ transform: i === idx ? `scale(${1 + prog * 0.05})` : "scale(1.04)" }} />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right,rgba(250,250,248,0.3) 0%,transparent 60%)" }} />
               <div style={{ position: "absolute", bottom: 20, left: 20, fontFamily: "'Inter',sans-serif", fontSize: "0.55rem", fontWeight: 500, letterSpacing: "0.22em", color: "rgba(255,255,255,0.5)" }}>
                 {mo.num} / 0{MODELS.length}
@@ -674,7 +674,7 @@ export default function App() {
               <button className="btn-primary" onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}>Read Full Story <IconArrow /></button>
             </div>
             <div style={{ position: "relative" }}>
-              <img src={product1} alt="Our Story" style={{ width: "100%", display: "block", objectFit: "cover", maxHeight: 600, borderRadius: 20, border: "1px solid rgba(17,17,17,0.08)", boxShadow: "0 24px 64px rgba(17,17,17,0.1)" }} />
+              <img src={product1} alt="Our Story" loading="lazy" decoding="async" style={{ width: "100%", display: "block", objectFit: "cover", maxHeight: 600, borderRadius: 20, border: "1px solid rgba(17,17,17,0.08)", boxShadow: "0 24px 64px rgba(17,17,17,0.1)" }} />
               <div style={{ position: "absolute", bottom: -20, left: -20, background: "#fff", border: "1px solid rgba(17,17,17,0.1)", borderRadius: 16, padding: "22px 24px", maxWidth: 230, boxShadow: "0 12px 40px rgba(17,17,17,0.1)", animation: "floatBadge 4s ease-in-out infinite" }}>
                 <div style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "1rem", fontStyle: "italic", color: "#888880", lineHeight: 1.65 }}>
                   "Wear what<br />lets you breathe."
@@ -729,8 +729,8 @@ export default function App() {
           <div className="cs-grid reveal">
             {/* Left — large feature image */}
             <div style={{ background: "#1a1a1a", padding: "48px 40px" }}>
-              <div className="cs-card-img" style={{ aspectRatio: "3/4", position: "relative", overflow: "hidden", borderRadius: 14, background: "#222", height: 420 }}>
-                <img src={product2} alt="Coming Soon" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)", transition: "transform 0.7s ease, filter 0.5s" }}
+              <div className="cs-card-img" style={{ aspectRatio: "3/4", position: "relative", overflow: "hidden", borderRadius: 14, background: "#222" }}>
+                <img src={product2} alt="Coming Soon" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(30%)", transition: "transform 0.7s ease, filter 0.5s" }}
                   onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.04)"; e.currentTarget.style.filter = "grayscale(0%)"; }}
                   onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.filter = "grayscale(30%)"; }}
                 />
@@ -765,7 +765,7 @@ export default function App() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, flex: 1 }}>
                 {[product3, product4].map((img, i) => (
                   <div key={i} style={{ position: "relative", borderRadius: 12, overflow: "hidden", background: "#222" }}>
-                    <img src={img} alt="preview" style={{ width: "100%", height: "100%", objectFit: "cover", minHeight: 160, filter: "grayscale(25%)", transition: "transform 0.6s ease, filter 0.5s" }}
+                    <img src={img} alt="preview" loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover", minHeight: 160, filter: "grayscale(25%)", transition: "transform 0.6s ease, filter 0.5s" }}
                       onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.05)"; e.currentTarget.style.filter = "grayscale(0%)"; }}
                       onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.filter = "grayscale(25%)"; }}
                     />
