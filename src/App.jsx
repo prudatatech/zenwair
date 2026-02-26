@@ -894,7 +894,7 @@ export default function App() {
         </div>
         <div style={{ maxWidth: 1240, margin: "44px auto 0", paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.08)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <div style={{ fontFamily: "'Inter',sans-serif", fontWeight: 300, fontSize: "0.7rem", color: "rgba(255,255,255,0.2)", letterSpacing: "0.04em" }}>
-            2026 ZENWAIR. Made with love in India. All rights reserved.
+            2026 ZENWAIR. All rights reserved.
           </div>
           <div style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontSize: "0.85rem", color: "rgba(255,255,255,0.2)" }}>
             Stay Calm · Stay Zen
