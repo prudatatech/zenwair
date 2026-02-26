@@ -337,7 +337,7 @@ function ModelShowcase() {
             </div>
             {/* Info panel */}
             <div className="showcase-info">
-              <div style={{ position: "absolute", right: -12, top: "50%", transform: "translateY(-50%)", fontFamily: "'Bebas Neue',sans-serif", fontSize: "22vw", lineHeight: 1, color: "rgba(17,17,17,0.04)", userSelect: "none", pointerEvents: "none" }}>{mo.num}</div>
+              <div className="showcase-ghost-num" style={{ position: "absolute", right: -12, top: "50%", transform: "translateY(-50%)", fontFamily: "'Bebas Neue',sans-serif", fontSize: "22vw", lineHeight: 1, color: "rgba(17,17,17,0.04)", userSelect: "none", pointerEvents: "none" }}>{mo.num}</div>
               <div style={{ position: "absolute", top: 40, right: 40, width: 140, height: 140, borderRadius: "50%", background: mo.color, opacity: 0.08, filter: "blur(50px)", pointerEvents: "none" }} />
               <div style={{ opacity: i === idx ? 1 : 0, transform: i === idx ? "translateY(0)" : "translateY(20px)", transition: "opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s" }}>
                 <div style={{ display: "inline-block", padding: "4px 14px", borderRadius: 999, background: `${mo.color}18`, border: `1px solid ${mo.color}40`, fontFamily: "'Inter',sans-serif", fontSize: "0.58rem", fontWeight: 600, letterSpacing: "0.2em", color: mo.color, textTransform: "uppercase", marginBottom: 16 }}>
@@ -350,8 +350,10 @@ function ModelShowcase() {
                 <p style={{ fontFamily: "'Cormorant Garamond',serif", fontStyle: "italic", fontSize: "clamp(0.88rem,1.5vw,1.08rem)", color: "#888880", lineHeight: 1.75, maxWidth: 320, marginBottom: 24 }}>
                   {mo.desc}
                 </p>
-                <button className="btn-outline" style={{ borderColor: `${mo.color}50`, color: mo.color, background: `${mo.color}10`, fontSize: "0.7rem", padding: "10px 24px" }}>
-                  Upcoming Soon
+                <button className="btn-outline" style={{ borderColor: `${mo.color}50`, color: mo.color, background: `${mo.color}10`, fontSize: "0.7rem", padding: "10px 24px" }}
+                  onClick={() => document.dispatchEvent(new CustomEvent('open-notify'))}
+                >
+                  Notify Me
                 </button>
               </div>
               {/* Progress dots */}
@@ -390,6 +392,13 @@ export default function App() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  // Global event bus: any button can fire 'open-notify' to open the waitlist modal
+  useEffect(() => {
+    const openModal = () => setShowModal(true);
+    document.addEventListener("open-notify", openModal);
+    return () => document.removeEventListener("open-notify", openModal);
+  }, []);
+
   useEffect(() => {
     if (loading) return;
     const els = document.querySelectorAll(".reveal");
@@ -422,6 +431,7 @@ export default function App() {
           <img
             src={LOGO}
             alt="ZENWAIR"
+            className="nav-logo"
             style={{ height: 72, width: "auto", objectFit: "contain", display: "block", borderRadius: 8 }}
           />
         </a>
@@ -493,6 +503,45 @@ export default function App() {
             style={{ marginTop: 48, padding: "12px 32px", fontSize: "0.78rem" }}
             onClick={() => { setShowNav(false); setShowModal(true); }}
           >Notify Me</button>
+
+          {/* Scroll to Top button */}
+          <button
+            onClick={() => {
+              setShowNav(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            style={{
+              marginTop: 16,
+              display: "flex", alignItems: "center", gap: 10,
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              borderRadius: 999,
+              padding: "11px 28px",
+              color: "rgba(255,255,255,0.55)",
+              fontFamily: "'Inter',sans-serif",
+              fontSize: "0.72rem",
+              fontWeight: 500,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              cursor: "pointer",
+              transition: "background 0.2s, color 0.2s, border-color 0.2s",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+              e.currentTarget.style.color = "#fff";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.06)";
+              e.currentTarget.style.color = "rgba(255,255,255,0.55)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)";
+            }}
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+            Back to Top
+          </button>
 
           {/* Brand tagline */}
           <div style={{
@@ -587,7 +636,10 @@ export default function App() {
             </div>
             <div style={{ textAlign: "right" }}>
               <div style={{ fontFamily: "'Inter',sans-serif", fontSize: "0.58rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#bbb8b0", marginBottom: 8 }}>Tap any piece to explore</div>
-              <button className="btn-outline" style={{ fontSize: "0.72rem", padding: "9px 22px" }}>All Pieces <IconArrow /></button>
+              <button className="btn-outline" style={{ fontSize: "0.72rem", padding: "9px 22px" }}
+                onClick={() => document.dispatchEvent(new CustomEvent('open-notify'))}>
+                All Pieces <IconArrow />
+              </button>
             </div>
           </div>
           <div className="catalogue-grid">
@@ -619,7 +671,7 @@ export default function App() {
               <p style={{ fontSize: "0.84rem", fontFamily: "'Inter',sans-serif", fontWeight: 300, color: "#bbb8b0", lineHeight: 1.9, marginBottom: 36 }}>
                 We believe fashion should breathe. Every piece we make is slow — considered, crafted, and consciously designed to let you move through life with ease.
               </p>
-              <button className="btn-primary">Read Full Story <IconArrow /></button>
+              <button className="btn-primary" onClick={() => document.getElementById('story')?.scrollIntoView({ behavior: 'smooth' })}>Read Full Story <IconArrow /></button>
             </div>
             <div style={{ position: "relative" }}>
               <img src={product1} alt="Our Story" style={{ width: "100%", display: "block", objectFit: "cover", maxHeight: 600, borderRadius: 20, border: "1px solid rgba(17,17,17,0.08)", boxShadow: "0 24px 64px rgba(17,17,17,0.1)" }} />
@@ -785,19 +837,55 @@ export default function App() {
             </div>
           </div>
           {[
-            { head: "Shop", links: ["Zen Kurta", "Calm Co-ord", "Wabi Shawl", "Deep tone orange", "New Arrivals"] },
-            { head: "Company", links: ["Our Story", "Artisans", "Sustainability", "Careers", "Press"] },
-            { head: "Help", links: ["Sizing Guide", "Shipping", "Returns", "Contact Us", "FAQ"] },
+            {
+              head: "Shop",
+              links: [
+                { label: "Zen Kurta", href: "#craft" },
+                { label: "Calm Co-ord", href: "#craft" },
+                { label: "Wabi Shawl", href: "#craft" },
+                { label: "Deep tone orange", href: "#craft" },
+                { label: "New Arrivals", notify: true },
+              ]
+            },
+            {
+              head: "Company",
+              links: [
+                { label: "Our Story", href: "#story" },
+                { label: "Artisans", href: "#story" },
+                { label: "Sustainability", href: "#story" },
+                { label: "Careers", notify: true },
+                { label: "Press", notify: true },
+              ]
+            },
+            {
+              head: "Help",
+              links: [
+                { label: "Sizing Guide", notify: true },
+                { label: "Shipping", notify: true },
+                { label: "Returns", notify: true },
+                { label: "Contact Us", href: "#contact" },
+                { label: "FAQ", notify: true },
+              ]
+            },
           ].map(({ head, links }) => (
             <div key={head}>
               <div style={{ fontFamily: "'Inter',sans-serif", fontSize: "0.58rem", fontWeight: 600, letterSpacing: "0.22em", color: "rgba(255,255,255,0.25)", marginBottom: 18, textTransform: "uppercase" }}>{head}</div>
               <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: 11 }}>
-                {links.map(l => (
-                  <li key={l}>
-                    <a href="#" style={{ fontFamily: "'Inter',sans-serif", fontWeight: 300, fontSize: "0.82rem", color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.2s" }}
-                      onMouseEnter={e => e.target.style.color = "#fff"}
-                      onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.3)"}
-                    >{l}</a>
+                {links.map(({ label, href, notify }) => (
+                  <li key={label}>
+                    {notify ? (
+                      <button
+                        onClick={() => document.dispatchEvent(new CustomEvent('open-notify'))}
+                        style={{ fontFamily: "'Inter',sans-serif", fontWeight: 300, fontSize: "0.82rem", color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.2s", background: "none", border: "none", cursor: "pointer", padding: 0 }}
+                        onMouseEnter={e => e.target.style.color = "#fff"}
+                        onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.3)"}
+                      >{label}</button>
+                    ) : (
+                      <a href={href} style={{ fontFamily: "'Inter',sans-serif", fontWeight: 300, fontSize: "0.82rem", color: "rgba(255,255,255,0.3)", textDecoration: "none", transition: "color 0.2s" }}
+                        onMouseEnter={e => e.target.style.color = "#fff"}
+                        onMouseLeave={e => e.target.style.color = "rgba(255,255,255,0.3)"}
+                      >{label}</a>
+                    )}
                   </li>
                 ))}
               </ul>
