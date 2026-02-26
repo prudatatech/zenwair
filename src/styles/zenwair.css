@@ -946,6 +946,25 @@ body {
         grid-template-columns: 1fr !important;
     }
 
+    /* Remove large inner padding on Coming Soon panels */
+    .cs-grid>div {
+        padding: 28px 20px !important;
+    }
+
+    /* Let the feature image height be auto on mobile so it's not cut */
+    .cs-card-img {
+        height: auto !important;
+        min-height: 280px;
+        aspect-ratio: 3/4;
+    }
+
+    /* Keep preview badge from getting clipped on the left */
+    .cs-badge,
+    .cs-card-img>div[style*="top: 16"] {
+        left: 12px !important;
+        top: 12px !important;
+    }
+
     /* Footer */
     .footer-cols {
         flex-direction: column !important;
@@ -1075,6 +1094,15 @@ body {
     /* Even smaller logo on tiny phones */
     .nav-logo {
         height: 36px !important;
+    }
+
+    /* Coming Soon — tighter on small phones */
+    .cs-grid>div {
+        padding: 20px 16px !important;
+    }
+
+    .cs-card-img {
+        min-height: 220px;
     }
 
     /* Single column catalogue */
